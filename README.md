@@ -5,15 +5,11 @@ A Flutter plugin to manage VPN permissions on Android and iOS.
 **Android**: Automatically requests VPN permission via `VpnService`.  
 **iOS**: Configures VPN profiles using `NETunnelProviderManager`.
 
----
-
 ## Features
 
 - **Android**: Auto-adds `BIND_VPN_SERVICE` permission (no setup required).
 - **iOS**: Triggers system dialogs for VPN configuration.
 - Simple API for permission checks/requests.
-
----
 
 ## Installation
 
@@ -23,8 +19,6 @@ Add to `pubspec.yaml`:
 dependencies:
   vpn_permission: ^0.0.1
 ```
-
----
 
 ## Setup
 
@@ -57,8 +51,6 @@ Repeat for `VPNExtension` target:
 
 - Same **App Group** as main app
 - **Network Extensions** capability
-
----
 
 ## Usage
 
@@ -95,8 +87,6 @@ if (!hasPermission) {
   print("Granted: $granted");
 }
 ```
-
----
 
 ## Contribution
 
