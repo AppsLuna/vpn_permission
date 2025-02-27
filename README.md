@@ -1,6 +1,6 @@
+# vpn_permission
 
-# flutter_vpn_permission
-A Flutter plugin to manage VPN permissions on Android and iOS.  
+A Flutter plugin to manage VPN permissions on Android and iOS.
 
 **Android**: Automatically requests VPN permission via `VpnService`.  
 **iOS**: Configures VPN profiles using `NETunnelProviderManager`.
@@ -21,7 +21,7 @@ Add to `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  vpn_permission: ^1.0.0
+  vpn_permission: ^0.0.1
 ```
 
 ---
@@ -95,37 +95,6 @@ if (!hasPermission) {
   print("Granted: $granted");
 }
 ```
-
----
-
-## Platform Behavior
-
-### Android
-
-Shows system dialog:  
-<img src="https://developer.android.com/static/images/guide/topics/connectivity/vpn-dialog.png" width="300">
-
-### iOS
-
-1. First request shows:  
-   <img src="https://docs-assets.developer.apple.com/published/23a5d2a5b6/rendered2x-1697131290.png" width="300">
-2. Profile appears in **Settings → General → VPN**
-
----
-
-## FAQ
-
-**Q: Why iOS needs a server address?**  
-A: Required for VPN configuration. Use a placeholder if not connecting.
-
-**Q: How to remove iOS profiles?**  
-A: Delete manually in **Settings → General → VPN**.
-
----
-
-## License
-
-MIT. See [LICENSE](LICENSE).
 
 ---
 
