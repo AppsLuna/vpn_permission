@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         ),
         body: Center(
           child: ElevatedButton(
-            onPressed: _manageVPNPermission(),
+            onPressed: _manageVPNPermission,
             child: const Text("Manage VPN Permission"),
           ),
         ),
