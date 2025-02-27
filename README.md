@@ -75,7 +75,7 @@ class AppConstants {
   static const String iOSPackageName = "com.example.vpn";
   static const String providerBundleIdentifier = "$iOSPackageName.VPNExtension";
   static const String groupIdentifier = "group.$iOSPackageName";
-  static const String localizedDescription = "Secure VPN";
+  static const String localizedDescription = "Free VPN - Fast & Secure";
 }
 ```
 
