@@ -1,7 +1,7 @@
 name: vpn_permission
 description: "A Flutter plugin for managing VPN permission on Android and iOS."
 version: 0.0.1
-homepage: example/lib/main.dart
+homepage: https://github.com/shafiquecbl/vpn_permission
 
 environment:
   sdk: '>=2.18.0 <4.0.0'
