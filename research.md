@@ -108,6 +108,3 @@
 2. [iOS NetworkExtension Framework](https://developer.apple.com/documentation/networkextension)  
 3. [openvpn_flutter Implementation](https://pub.dev/packages/openvpn_flutter)  
 
----
-
-This document demonstrates your technical research, problem-solving approach, and implementation details. Customize it further with screenshots, code snippets, or test results as needed!
