@@ -57,10 +57,19 @@
 1. **VPN Profile Configuration**:  
    ```swift
    let manager = NETunnelProviderManager()
-   let protocol = NETunnelProviderProtocol()
-   protocol.providerBundleIdentifier = "com.example.vpn.extension"
-   protocol.serverAddress = "dummy.server" // Placeholder
-   manager.protocolConfiguration = protocol
+    let tunnelProtocol = NETunnelProviderProtocol()
+    
+    // Configure tunnel protocol
+    tunnelProtocol.providerBundleIdentifier = providerBundleIdentifier
+    tunnelProtocol.serverAddress = "" // Required but can be empty
+    tunnelProtocol.providerConfiguration = [
+      "groupIdentifier": groupIdentifier,
+      "localizedDescription": localizedDescription
+    ]
+    
+    manager.protocolConfiguration = tunnelProtocol
+    manager.localizedDescription = localizedDescription
+    manager.isEnabled = true
    ```  
 2. **Trigger System Dialog**:  
    ```swift
