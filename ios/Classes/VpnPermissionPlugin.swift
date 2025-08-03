@@ -58,43 +58,78 @@ public class VpnPermissionPlugin: NSObject, FlutterPlugin {
     localizedDescription: String,
     groupIdentifier: String
   ) {
-    let manager = NETunnelProviderManager()
-    let tunnelProtocol = NETunnelProviderProtocol()
-    
-    // Configure tunnel protocol
-    tunnelProtocol.providerBundleIdentifier = providerBundleIdentifier
-    tunnelProtocol.serverAddress = "" // Required but can be empty
-    tunnelProtocol.providerConfiguration = [
-      "groupIdentifier": groupIdentifier,
-      "localizedDescription": localizedDescription
-    ]
-    
-    manager.protocolConfiguration = tunnelProtocol
-    manager.localizedDescription = localizedDescription
-    manager.isEnabled = true
-    
-    // Save configuration to trigger system dialog
-    manager.saveToPreferences { [weak self] error in
+    // First, check if there's already a VPN configuration with the same bundle identifier
+    NETunnelProviderManager.loadAllFromPreferences { [weak self] (managers, error) in
       guard let self = self else { return }
       
       if let error = error {
         self.pendingResult?(FlutterError(
-          code: "SAVE_ERROR", 
-          message: error.localizedDescription, 
+          code: "LOAD_ERROR",
+          message: error.localizedDescription,
           details: nil
         ))
-      } else {
-        // Load configuration to ensure it's persisted
-        manager.loadFromPreferences { error in
-          if error == nil {
-            self.vpnManagers.append(manager)
-            self.pendingResult?(true)
-          } else {
+        return
+      }
+      
+      // Check if a manager with the same bundle identifier already exists
+      if let existingManager = managers?.first(where: { manager in
+        if let tunnelProtocol = manager.protocolConfiguration as? NETunnelProviderProtocol {
+          return tunnelProtocol.providerBundleIdentifier == providerBundleIdentifier
+        }
+        return false
+      }) {
+        // Reuse existing manager
+        existingManager.isEnabled = true
+        existingManager.saveToPreferences { error in
+          if let error = error {
             self.pendingResult?(FlutterError(
-              code: "LOAD_ERROR", 
-              message: error?.localizedDescription, 
+              code: "SAVE_ERROR",
+              message: error.localizedDescription,
               details: nil
             ))
+          } else {
+            self.pendingResult?(true)
+          }
+        }
+      } else {
+        // Create new manager if none exists
+        let manager = NETunnelProviderManager()
+        let tunnelProtocol = NETunnelProviderProtocol()
+        
+        // Configure tunnel protocol
+        tunnelProtocol.providerBundleIdentifier = providerBundleIdentifier
+        tunnelProtocol.serverAddress = "" // Required but can be empty
+        tunnelProtocol.providerConfiguration = [
+          "groupIdentifier": groupIdentifier,
+          "localizedDescription": localizedDescription
+        ]
+        
+        manager.protocolConfiguration = tunnelProtocol
+        manager.localizedDescription = localizedDescription
+        manager.isEnabled = true
+        
+        // Save configuration to trigger system dialog
+        manager.saveToPreferences { error in
+          if let error = error {
+            self.pendingResult?(FlutterError(
+              code: "SAVE_ERROR",
+              message: error.localizedDescription,
+              details: nil
+            ))
+          } else {
+            // Load configuration to ensure it's persisted
+            manager.loadFromPreferences { error in
+              if error == nil {
+                self.vpnManagers.append(manager)
+                self.pendingResult?(true)
+              } else {
+                self.pendingResult?(FlutterError(
+                  code: "LOAD_ERROR",
+                  message: error?.localizedDescription,
+                  details: nil
+                ))
+              }
+            }
           }
         }
       }
